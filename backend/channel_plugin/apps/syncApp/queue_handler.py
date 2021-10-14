@@ -182,15 +182,15 @@ class TaskHandler:
     def run(data):
         print("RECEIVED DATA :" + str(data))
         assert isinstance(data, dict), f"Improper data type"
-        self.member_id = data["message"]["member_id"]
-        self.organization_id = data["message"]["organization_id"]
-        self.event = data["event"]
+        
         self.__process_data()
     
     # @staticmethod
     def __process_data(self):
-        pass
-    
+        self.member_id = data["message"]["member_id"]
+        self.organization_id = data["message"]["organization_id"]
+        self.event = data["event"]
+
     @staticmethod
     def get_schema():
         print("HEO")
@@ -200,21 +200,21 @@ class JOIN_TaskHandler(TaskHandler):
     def __init__(self):
         pass
 
-    # @staticmethod
-    def self.__process_data():
-        print("Processing Data")
-        default_channels = __get_default_channels()
-        __add_member_to_channel(__member_id, __organization_id, default_channels)
-
     @staticmethod
-    def __get_default_channels():
+    def __process_data(self):
+        print("Processing Data")
+        default_channels = self.__get_default_channels()
+        JOIN_TaskHandler.__add_member_to_channel(__member_id, __organization_id, default_channels)
+        # super().
+    @staticmethod
+    def __get_default_channels(self):
         print("Get Default Channels")
         data = find_match_in_db(__organization_id, "channel", default, True, return_data=True)
         default_channel = [i["_id"] for i in data]
         return default_channels
 
     @staticmethod
-    def __add_member_to_channel(member_id, org_id, channels):
+    def __add_member_to_channel(self, member_id, org_id, channels):
         print("Add Member to Channel")
         for channel in channels:
             endpoint_url = f"/v1/{org_id}/channels/{channel_id}/members/"
@@ -232,47 +232,48 @@ class JOIN_TaskHandler(TaskHandler):
     
 
 class REMOVE_TaskHandler(TaskHandler):
-    def __init__(self):
-        self.job_status = {"event":"leave_organization"}
-        super().__init__()
+    # def __init__(self):
+    #     self.job_status = {"event":"leave_organization"}
+    #     super().__init__()
 
-    @staticmethod
-    def __retrieve_user_channels(org_id, user_id):
-        endpoint_url = f"/v1/{org_id}/channels/users/{user_id}/"
-        response = requests.get(self.BASE_URL + endpoint_url)
-        if response.status_code < 500:
-            try:
-                data = response.json()
-                channel_ids = [i["_id"] for i in data]
-                return channel_ids
+    # @staticmethod
+    # def __retrieve_user_channels(org_id, user_id):
+    #     endpoint_url = f"/v1/{org_id}/channels/users/{user_id}/"
+    #     response = requests.get(self.BASE_URL + endpoint_url)
+    #     if response.status_code < 500:
+    #         try:
+    #             data = response.json()
+    #             channel_ids = [i["_id"] for i in data]
+    #             return channel_ids
 
-            except Exception as e:
-                print(f"\n ERROR {e} \n")
-                raise BadServerResponse
-        else:
-            raise BadServerResponse
+    #         except Exception as e:
+    #             print(f"\n ERROR {e} \n")
+    #             raise BadServerResponse
+    #     else:
+    #         raise BadServerResponse
 
-    @staticmethod
-    def __remove_from_channels(member_id, org_id, channels=[]):
-        for channel_id in channels:
-            try:
-                endpoint_url = f"/v1/{org_id}/channels/{channel_id}/members/{member_id}/"
-                response = requests.delete(self.BASE_URL + endpoint_url)
-            except Exception as e:
-                raise BadServerResponse
+    # @staticmethod
+    # def __remove_from_channels(member_id, org_id, channels=[]):
+    #     for channel_id in channels:
+    #         try:
+    #             endpoint_url = f"/v1/{org_id}/channels/{channel_id}/members/{member_id}/"
+    #             response = requests.delete(self.BASE_URL + endpoint_url)
+    #         except Exception as e:
+    #             raise BadServerResponse
 
-    @staticmethod
-    def run(data):
-        assert isinstance(data, dict), f"Improper data type"
-        member_id = data["message"]["member_id"]
-        organization_id = data["message"]["organization_id"]
-        event = data["event"]
+    # @staticmethod
+    # def run(data):
+    #     assert isinstance(data, dict), f"Improper data type"
+    #     member_id = data["message"]["member_id"]
+    #     organization_id = data["message"]["organization_id"]
+    #     event = data["event"]
         
-        user_channels = self.retrieve_user_channels(organization_id, member_id)
-        self.remove_from_channels(member_id, organization_id, user_channels)
+    #     user_channels = self.retrieve_user_channels(organization_id, member_id)
+    #     self.remove_from_channels(member_id, organization_id, user_channels)
     
     
-    @staticmethod
-    def get_schema():
-        print(__job_status)
-        return {"event":"leave_organization"}
+    # @staticmethod
+    # def get_schema():
+    #     print(__job_status)
+    #     return {"event":"leave_organization"}
+    pass
