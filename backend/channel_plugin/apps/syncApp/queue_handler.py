@@ -200,10 +200,13 @@ class JOIN_TaskHandler(TaskHandler):
     def __init__(self):
         pass
 
-    @staticmethod
+    # @staticmethod
     def __process_data(self):
         print("Processing Data")
-        default_channels = self.__get_default_channels()
+        self.member_id = data["message"]["member_id"]
+        self.organization_id = data["message"]["organization_id"]
+        self.event = data["event"]
+        default_channels =JOIN_TaskHandler.__get_default_channels()
         JOIN_TaskHandler.__add_member_to_channel(__member_id, __organization_id, default_channels)
         # super().
     @staticmethod
