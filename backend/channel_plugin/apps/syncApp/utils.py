@@ -8,3 +8,6 @@ scheduler = BackgroundScheduler()
 def job_run_qhandler():
     print(datetime.now().time().strftime('%H:%M:%S'))
     # QueueHandler.run(dummyHandler)
+
+class BadServerResponse(BaseException):
+	pass
