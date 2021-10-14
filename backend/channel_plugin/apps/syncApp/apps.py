@@ -1,22 +1,19 @@
 from datetime import datetime,timedelta
 from pytz import utc
+from .queue_handler import QueueHandler
+from .utils import job_run_qhandler
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.memory import MemoryJobStore
 
-
-scheduler = BackgroundScheduler()
-def job_function():
-    print(datetime.now().time().strftime('%H:%M:%S'))
-
-
 from django.apps import AppConfig
 
+scheduler = BackgroundScheduler()
 
 class SyncAppConfig(AppConfig):
     name = 'apps.syncApp'
 
     def ready(self):
         print("The Alpha Dog is here")
-        scheduler.add_job(job_function, "interval", seconds=5)
+        scheduler.add_job(job_run_qhandler, trigger="interval", minutes=10, id="Timer",replace_existing=True,max_instances=1)
         scheduler.start()
 
